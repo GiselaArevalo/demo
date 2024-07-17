@@ -20,4 +20,7 @@ public class ConsultationRoomService {
     public ConsultationRoom saveRoom(ConsultationRoom room) {
         return consultationRoomRepository.save(room);
     }
+
+
+    //me faltaron varias cosas y validaciones
 }

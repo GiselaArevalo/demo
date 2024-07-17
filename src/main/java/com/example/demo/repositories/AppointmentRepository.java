@@ -1,0 +1,13 @@
+package com.example.demo.repositories;
+
+import com.example.demo.models.Appointment;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.time.LocalDateTime;
+import java.util.List;
+
+public interface AppointmentRepository extends JpaRepository<Appointment, Long> {
+    List<Appointment> findByDoctorIdAndAppointmentTimeBetween(Long doctorId, LocalDateTime start, LocalDateTime end);
+    List<Appointment> findByConsultationRoomIdAndAppointmentTimeBetween(Long roomId, LocalDateTime start, LocalDateTime end);
+    List<Appointment> findByPatientNameAndAppointmentTimeBetween(String patientName, LocalDateTime start, LocalDateTime end);
+}

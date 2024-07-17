@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Appointments</title>
+</head>
+<body>
+<h1>Appointments</h1>
+<table>
+    <tr>
+        <th>Doctor</th>
+        <th>Consultation Room</th>
+        <th>Appointment Time</th>
+        <th>Patient Name</th>
+    </tr>
+    <tr th:each="appointment : ${appointments}">
+        <td th:text="${appointment.doctor.firstName} + ' ' + ${appointment.doctor.lastNamePaternal}"></td>
+        <td th:text="${appointment.consultationRoom.roomNumber}"></td>
+        <td th:text="${appointment.appointmentTime}"></td>
+        <td th:text="${appointment.patientName}"></td>
+    </tr>
+</table>
+<a href="/new-appointment">New Appointment</a>
+</body>
+</html>

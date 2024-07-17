@@ -4,6 +4,8 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
+@Data
+@NoArgsConstructor
 public class Appointment {
 
     @Id
@@ -19,5 +21,4 @@ public class Appointment {
     private LocalDateTime appointmentTime;
     private String patientName;
 
-    // Getters y setters
 }

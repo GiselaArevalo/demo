@@ -4,6 +4,8 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
+@Data
+@NoArgsConstructor
 public class ConsultationRoom {
 
     @Id
@@ -15,5 +17,4 @@ public class ConsultationRoom {
     @OneToMany(mappedBy = "consultationRoom")
     private List<Appointment> appointments;
 
-    // Getters y setters
 }

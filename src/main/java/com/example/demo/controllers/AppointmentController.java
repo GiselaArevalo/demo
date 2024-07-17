@@ -9,13 +9,13 @@ import com.example.demo.services.ConsultationRoomService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Controller
+@RequestMapping("/appointments")
 public class AppointmentController {
 
     @Autowired
@@ -27,15 +27,23 @@ public class AppointmentController {
     @Autowired
     private ConsultationRoomService consultationRoomService;
 
-    @GetMapping("/appointments")
-    public String getAllAppointments(Model model) {
-        List<Appointment> appointments = appointmentService.getAllAppointments();
+    //all
+    @GetMapping("/")
+    public String listAppointments(Model model,
+                                   @RequestParam(required = false) LocalDate date,
+                                   @RequestParam(required = false) Long consultationRoomId,
+                                   @RequestParam(required = false) Long doctorId) {
+        List<Appointment> appointments = appointmentService.filterAppointments(date, consultationRoomId, doctorId);
+        List<Doctor> doctors = doctorService.getAllDoctors();
+        List<ConsultationRoom> rooms = consultationRoomService.getAllRooms();
         model.addAttribute("appointments", appointments);
+        model.addAttribute("doctors", doctors);
+        model.addAttribute("rooms", rooms);
         return "appointments";
     }
 
-    @GetMapping("/new-appointment")
-    public String newAppointmentForm(Model model) {
+    @GetMapping("/new")
+    public String showAppointmentForm(Model model) {
         List<Doctor> doctors = doctorService.getAllDoctors();
         List<ConsultationRoom> rooms = consultationRoomService.getAllRooms();
         model.addAttribute("doctors", doctors);
@@ -44,9 +52,15 @@ public class AppointmentController {
         return "newAppointment";
     }
 
-    @PostMapping("/save-appointment")
-    public String saveAppointment(@ModelAttribute Appointment appointment, Model model) {
+    @PostMapping("/new")
+    public String saveAppointment(@ModelAttribute("appointment") Appointment appointment, Model model) {
         appointmentService.saveAppointment(appointment);
-        return "redirect:/appointments";
+        return "redirect:/appointments/";
+    }
+
+    @GetMapping("/cancel/{id}")
+    public String cancelAppointment(@PathVariable Long id) {
+        appointmentService.cancelAppointment(id);
+        return "redirect:/appointments/";
     }
 }

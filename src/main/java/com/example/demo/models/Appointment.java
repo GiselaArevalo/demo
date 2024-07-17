@@ -4,6 +4,7 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "appointments")
 @Data
 @NoArgsConstructor
 public class Appointment {
@@ -13,12 +14,16 @@ public class Appointment {
     private Long id;
 
     @ManyToOne
+    @JoinColumn(name = "doctor_id")
     private Doctor doctor;
 
     @ManyToOne
+    @JoinColumn(name = "consultation_room_id")
     private ConsultationRoom consultationRoom;
 
+    @Column(name = "appointment_time")
     private LocalDateTime appointmentTime;
-    private String patientName;
 
+    @Column(name = "patient_name")
+    private String patientName;
 }
